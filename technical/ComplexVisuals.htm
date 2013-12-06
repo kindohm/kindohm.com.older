@@ -1,0 +1,449 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>Complex ModelVisual3D Composition and Hit Testing in WPF</title>
+		<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1" />
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5"/>
+		<link href="technical.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+
+	<div id="main">
+	
+	<div id="left">
+	
+<p><script type="text/javascript"><!--
+google_ad_client = "pub-1037851691997403";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_ad_type = "text_image";
+google_ad_channel = "";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></p>
+
+		<p><a href="toc.htm">WPF Tutorials Table of Contents</a> | <a href="http://www.kindohm.com">Return to www.kindohm.com</a></p>
+		<p><a href="http://www.kindohm.com/files/Complex3DCompositionAndHitTesting.zip">Download source code</a></p>
+		<h1 class="mainTitle">Complex ModelVisual3D Composition and Hit Testing in WPF</h1>
+
+	<p>In a WPF app I'd worked on, I encountered a scenario where I needed a 3D visual object that I could interact with using the mouse.  While mousing-over or clicking the visual, I wanted its appearance to change.  I didn't just want its color
+or size to change - but I actually want its <em>geometry</em> to change.</p>
+
+<p><script type="text/javascript"><!--
+google_ad_client = "pub-1037851691997403";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_ad_type = "text_image";
+google_ad_channel = "";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></p>
+
+<p>One way to accomplish this is to do hit testing and let your user interface determine what visual model was clicked, and then replace it with another visual model that has the different appearance and geometry.  
+However, a better idea is to encapsulate the behavior of changing the appearance and geometry into a single class that derives from WPF's ModelVisual3D class.  </p>
+
+<p>In other words, wouldn't it be great to do this in XAML:</p>
+
+<pre><code>&lt;Viewport3D&gt;
+  &lt;custom:CustomCompositeVisual x:Name="customVisual" /&gt;
+&lt;/Viewport3D&gt;</code></pre>
+
+<p>And then do this in code:</p>
+
+<pre><code>ModelVisual3D hitTestResult = GetHitTestResult(...);
+if (hitTestResult is CustomCompositeVisual)
+{
+  CustomCompositeVisual customVisual = hitTestResult as CustomCompositeVisual;
+  customVisual.ChangeAppearance();
+}</code></pre>
+
+<p>The main approach to solving this problem is to create a custom class that derives from ModelVisual3D, and then create multiple models or visuals inside of it that it hides or shows as its state changes.  Basically you'd
+create a container that contains child models or visuals that the container will hide and show.</p>
+
+<p>You need to make a design choice with this approach.  The contents of your containing class can consist of either child GeometryModel3D objects or ModelVisual3D objects.  The former is a non-visual element that gets rendered
+by your container, and the latter is a visual item that renders itself and can be hit tested on its own.  Either approach will work, but depending on how intricate the hit testing of your container needs to be you may need to 
+choose the ModelVisual3D approach.</p>
+
+<p>Before I start showing code, let me explain the requirements for my example.  I want to create a single ModelVisual3D class that contains two cubes - a large one and a small one.  The large one is shown by default.  When I click it,
+it shows the small cube.  When I let go of the mouse, it should show the large cube again.</p>
+
+<h1>Approach #1: using GeometryModel3D</h1>
+<p>Let's start with the first approach and use GeometryModel3D objects.  Create a new class that inherits from ModelVisual3D, and then create the child GeometryModel3D objects in its constructor.  Since the GeometryModel3D objects
+are not visual elements, they need to be added as the Content property on your class.  Your Content property cannot hold children, but it can hold a Model3DGroup object, which can contain children.  Add your GeometryModel3D objects
+to a Model3DGroup, then set the Content property equal to the group:</p>
+
+<p>NOTE: You'll need to download the <a href="GeometryGenerator.cs.txt">GeometryGenerator.cs</a> file/class first in order for this code to work.</p>
+
+<pre><code>public class CompositeGeometryModelVisual3D : ModelVisual3D
+{
+	GeometryModel3D bigCubeModel;
+	GeometryModel3D smallCubeModel;
+
+	public CompositeGeometryModelVisual3D()
+	{
+		bigCubeModel = GeometryGenerator.CreateCubeModel();
+		smallCubeModel = GeometryGenerator.CreateCubeModel();
+		smallCubeModel.Transform = new ScaleTransform3D(.3, .3, .3);
+
+		Model3DGroup group = new Model3DGroup();
+		group.Children.Add(bigCubeModel);
+		group.Children.Add(smallCubeModel);
+
+		Content = group;
+	}
+}</code></pre>
+
+<p>To display this custom object in XAML, add an XML namespace to your XAML document that refers to your clr-namespace of the class:</p>
+
+<pre><code>xmlns:local="clr-namespace:YOUR.NAMESPACE.HERE"</code></pre>
+
+<p>Then add the markup for your custom CompositeGeometryModelVisual3D class.  Make sure to stick it in the Viewport3D:</p>
+
+<pre><code>&lt;Viewport3D&gt;
+  &lt;!-- make sure to define lighting, etc... --&gt;
+  &lt;local:CompositeGeometryModelVisual3D /&gt;
+&lt;/Viewport3D&gt;</code></pre>
+
+<p>If you run the app, nothing will show up.  That's because you haven't given the two child GeometryModel3D objects a Material yet.  Add the following methods to the custom CompositeGeometryModelVisual3D 
+class, and call ShowBigModel in the constructor:</p>
+
+<pre><code>public void ShowBigModel()
+{
+	DiffuseMaterial bigMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.Red));
+	bigCubeModel.Material = bigMaterial;
+	smallCubeModel.Material = null;
+}
+
+public void ShowSmallModel()
+{
+	DiffuseMaterial smallMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.Blue));
+	smallCubeModel.Material = smallMaterial;
+	bigCubeModel.Material = null;
+}</code></pre>
+
+<p>Now you should see something like this when you run the app (assuming you've set up the Viewport3D's camera and lighting appropriately:</p>
+
+<p><img src="figure01.png"/></p>
+
+<p>Now you need to hook up some hit testing to have your custom visual show the small cube when clicked.  Give your Viewport3D a name (e.g. mainViewport) and add the following MouseDown and MouseUp event handlers to your Window:</p>
+
+<pre><code>public Window1(){
+  InitializeComponent();
+  this.mainViewport.MouseDown += new MouseButtonEventHandler(mainViewport_MouseDown);
+  this.mainViewport.MouseUp += new MouseButtonEventHandler(mainViewport_MouseUp);
+}
+
+void mainViewport_MouseDown(object sender, MouseButtonEventArgs e) { }
+void mainViewport_MouseUp(object sender, MouseButtonEventArgs e) { }</code></pre>
+
+<p>Add the following method that will perform a hit test given a Point:</p>
+
+<pre><code>ModelVisual3D GetHitTestResult(Point location)
+{
+	HitTestResult result = VisualTreeHelper.HitTest(mainViewport, location);
+	if(result != null && result.VisualHit is ModelVisual3D)
+	{
+		ModelVisual3D visual = (ModelVisual3D)result.VisualHit;
+		return visual;
+	}
+
+	return null;
+}</code></pre>
+
+<p>Fill in the implementation of your two mouse event handlers to use the GetHitTestResult method, inspect the result, and then act on the CompositeGeometryModelVisual3D object if it was found:</p>
+
+<pre><code>void mainViewport_MouseUp(object sender, MouseButtonEventArgs e)
+{
+	Point location = e.GetPosition(mainViewport);
+	ModelVisual3D result = GetHitTestResult(location);
+	if(result == null)
+	{
+		return;
+	}
+
+	if(result is CompositeGeometryModelVisual3D)
+	{
+		((CompositeGeometryModelVisual3D)result).ShowBigModel();
+		return;
+	}
+}
+
+void mainViewport_MouseDown(object sender, MouseButtonEventArgs e)
+{
+	Point location = e.GetPosition(mainViewport);
+	ModelVisual3D result = GetHitTestResult(location);
+	if(result == null)
+	{
+		return;
+	}
+
+	if (result is CompositeGeometryModelVisual3D)
+	{
+		((CompositeGeometryModelVisual3D)result).ShowSmallModel();
+		return;
+	}
+}</code></pre>
+
+<p>Now when you run the code, you should be able to click on the large cube and the small one will be shown.  Let go of the mouse (while still hovering over the cube) to show the large one again.</p>
+
+<p><img src="figure02.png" /></p>
+
+<p>That's design approach #1.</p>
+
+<h1>Approach #2, using ModelVisual3D children</h1>
+
+<p>For design approach #2, which uses child ModelVisual3D objects rather than child GeometryModel3D objects, your custom class looks a little different.  The hit testing works differently too.  </p>
+
+<p>Create a new class that inherits from ModelVisual3D, but instead uses ModelVisual3D objects:</p>
+
+<pre><code>public class CompositeVisualModelVisual3D : ModelVisual3D
+{
+	ModelVisual3D bigCubeVisual;
+	ModelVisual3D smallCubeVisual;
+
+	public CompositeVisualModelVisual3D()
+	{
+		GeometryModel3D bigCubeModel = GeometryGenerator.CreateCubeModel();
+		GeometryModel3D smallCubeModel = GeometryGenerator.CreateCubeModel();
+		smallCubeModel.Transform = new ScaleTransform3D(.3, .3, .3);
+		bigCubeVisual = new ModelVisual3D();
+		bigCubeVisual.Content = bigCubeModel;
+		smallCubeVisual = new ModelVisual3D();
+		smallCubeVisual.Content = smallCubeModel;
+		this.Children.Add(bigCubeVisual);
+		this.Children.Add(smallCubeVisual);
+		ShowBigVisual();
+	}
+
+	public void ShowBigVisual()
+	{
+		DiffuseMaterial bigMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.Green));
+		GeometryModel3D bigModel = bigCubeVisual.Content as GeometryModel3D;
+		bigModel.Material = bigMaterial;
+		GeometryModel3D smallModel = smallCubeVisual.Content as GeometryModel3D;
+		smallModel.Material = null;
+	}
+
+	public void ShowSmallVisual()
+	{
+		DiffuseMaterial smallMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.Goldenrod));
+		GeometryModel3D bigModel = bigCubeVisual.Content as GeometryModel3D;
+		bigModel.Material = null;
+		GeometryModel3D smallModel = smallCubeVisual.Content as GeometryModel3D;
+		smallModel.Material = smallMaterial;
+	}
+}</code></pre>
+
+<p>Note what is different this time around.  First, you're adding the child ModelVisual3D objects directly to the custom container's Children collection.  Second, in order to assign the Material values, you must obtain the internal
+Content property of each child ModelVisual3D.  Then you can cast the Content property (to GeometryModel3D in this case) and assign the Material then.  </p>
+
+<p>The challenge with hit testing this approach is that your custom CompositeVisualModelVisual3D will not be hit directly by the mouse pointer.  Instead, the child ModelVisual3D objects are hit.  However, in order to call the
+ShowBigVisual() and ShowSmallVisual() methods, you want the container class to be produced out of the hit test rather than the child ModelVisual3Ds.  How do you do this?  Use the VisualTreeHelper class's
+GetParent() method to find the parent containing object from a visual hit.  Modify the two mouse event handler methods in your Window to look like this:</p>
+
+<pre><code>void mainViewport_MouseUp(object sender, MouseButtonEventArgs e)
+{
+	Point location = e.GetPosition(mainViewport);
+	ModelVisual3D result = GetHitTestResult(location);
+	if(result == null)
+	{
+		return;
+	}
+
+	if(result is CompositeGeometryModelVisual3D)
+	{
+		((CompositeGeometryModelVisual3D)result).ShowBigModel();
+		return;
+	}
+
+	//need to find the visual's parent
+	DependencyObject parent = VisualTreeHelper.GetParent(result);
+	if(parent is CompositeVisualModelVisual3D)
+	{
+		((CompositeVisualModelVisual3D)parent).ShowBigVisual();
+	}
+}
+
+void mainViewport_MouseDown(object sender, MouseButtonEventArgs e)
+{
+	Point location = e.GetPosition(mainViewport);
+	ModelVisual3D result = GetHitTestResult(location);
+	if(result == null)
+	{
+		return;
+	}
+
+	if (result is CompositeGeometryModelVisual3D)
+	{
+		((CompositeGeometryModelVisual3D)result).ShowSmallModel();
+		return;
+	}
+
+	//need to find the visual's parent
+	DependencyObject parent = VisualTreeHelper.GetParent(result);
+	if(parent is CompositeVisualModelVisual3D)
+	{
+		((CompositeVisualModelVisual3D)parent).ShowSmallVisual();
+	}
+
+}</code></pre>
+ 
+<p>Notice that if the hit result is not of the type CompositeGeometryModelVisual3D (from Approach #1), then you use the VisualTreeHelper to get the parent of the hit result's parent.  If the parent container ends up being of the 
+type CompositeVisualModelVisual3D, then you know you've hit a ModelVisual3D contained within the custom container built in Approach #2.  You can then
+call the ShowSmallVisual() and ShowBigVisual() methods on the parent.</p>
+
+<p>You can put both of the custom container visuals in your XAML and you'll see tha they both behave the same way even though their implementations are very different:</p>
+
+<p><img src="figure03.png"/></p>
+
+<h1>Building on Approach #2</h1>
+
+<p>The main benefit of Approach #2 is that all of the child ModelVisual3D objects in your custom container could be displayed all at the same and hit tested separately.  You'll know which child object was clicked.
+With Approach #1, clicking on any of the "children" will result in a hit test where you don't know which child object was clicked - because the children are technically not visual objects (they are GeometryModel3D objects).</p>
+
+<p>So, let's see this benefit in action.  Create a new class called Color changer that inherits from ModelVisual3D.  This will be another container class that uses Approach #2, but it will display two visuals at the same and
+will allow interaction between the two:</p>
+
+<pre><code>public class ColorChanger : ModelVisual3D
+{
+	ModelVisual3D bigCubeVisual;
+	ModelVisual3D smallCubeVisual;
+
+	public ColorChanger()
+	{
+		GeometryModel3D bigCubeModel = GeometryGenerator.CreateCubeModel();
+		GeometryModel3D smallCubeModel = GeometryGenerator.CreateCubeModel();
+
+		bigCubeModel.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Pink));
+		smallCubeModel.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Orange));
+
+		Transform3DGroup transformGroup = new Transform3DGroup();
+		transformGroup.Children.Add(new ScaleTransform3D(.3, .3, .3));
+		transformGroup.Children.Add(new TranslateTransform3D(2.5,0,0));
+		smallCubeModel.Transform = transformGroup;
+
+		bigCubeVisual = new ModelVisual3D();
+		bigCubeVisual.Content = bigCubeModel;
+
+		smallCubeVisual = new ModelVisual3D();
+		smallCubeVisual.Content = smallCubeModel;
+
+		this.Children.Add(bigCubeVisual);
+		this.Children.Add(smallCubeVisual);
+	}
+
+	public void SelectChild(ModelVisual3D child){
+
+		if(child == bigCubeVisual)
+		{
+			GeometryModel3D model = smallCubeVisual.Content ass GeometryModel3D;
+			DiffuseMaterial material = model.Material as DiffuseMaterial;
+			SolidColorBrush brush = material.Brush as SolidColorBrush;
+			if(brush.Color == Colors.Orange)
+			{
+				model.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Olive));
+			}
+			else if(brush.Color == Colors.Olive)
+			{
+				model.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Orange));
+			}
+		}
+
+		if(child == smallCubeVisual)
+		{
+			GeometryModel3D model = bigCubeVisual.Content as GeometryModel3D;
+			DiffuseMaterial material = model.Material as DiffuseMaterial;
+			SolidColorBrush brush = material.Brush as SolidColorBrush;
+			if(brush.Color == Colors.Pink)
+			{
+				model.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Cyan));
+			}
+			else if(brush.Color == Colors.Cyan)
+			{
+				model.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Pink));
+			}
+		}
+	}
+}</code></pre>
+
+<p>Note that both visuals are being displayed with a material.  The SelectChild method allows one of the two objects to be "selected" and will cause the
+other object to change color.</p>
+
+<p>Add the ColorChanger to the XAML inside the viewport:</p>
+
+<pre><code>&lt;local:ColorChanger&gt;
+	&lt;local:ColorChanger.Transform&gt;
+		&lt;TranslateTransform3D
+			OffsetX="-.5"
+			OffsetZ="-4"
+			OffsetY="1"/&gt;
+	&lt;/local:ColorChanger.Transform&gt;
+	&lt;/local:ColorChanger&gt;</code></pre>
+
+<p>Modify the mouse event handlers in your window so that they know what to do with the ColorChanger container:</p>
+
+<pre><code>DependencyObject parent = VisualTreeHelper.GetParent(result);
+if(parent is CompositeVisualModelVisual3D)
+{
+	((CompositeVisualModelVisual3D)parent).ShowSmallVisual();
+}
+else if(parent is ColorChanger) //NEW CODE STARTS HERE
+{
+	((ColorChanger)parent).SelectChild(result);
+}</code></pre>
+
+<p>Now the Viewport is getting a little full, but when you run the app you'll see the new ColorChanger displayed along with the first two containers you created.  Click on one of the ColorChanger's
+children, and you'll see the other child change its color:</p>
+
+<p><img src="figure04.png"/></p>
+
+<h1>Summary</h1>
+<p>In general, Approach #2 is more flexible and gives you more power in being able to create a custom "visual" element.  With Approach #1, a hit test will return your container object only and will not return children.  
+With Approach #2, the specific child that was clicked inside of your container is returned, and your container can deal with it appropriately.  The down side is that you need something that knows how to inspect the
+visual tree and determine what to do with the parent object found, but it's a valuable trade-off if you need a complex container/child model.  </p>
+
+<h1>Resources and Other Links</h1>
+
+<ul>
+		<li><a href="toc.htm">Return to the WPF Article Table of Contents</a></li>
+		  <li><a href="WPF3DTutorial.htm">WPF 3D Construction Basics</a> - learn how to create 3D visual objects, use a Viewport, use a camera, and add lighting.</li>
+</ul>
+<br/><br/><br/>
+</div>
+
+  <div id="right">
+  
+ <script type="text/javascript"><!--
+google_ad_client = "pub-1037851691997403";
+google_ad_width = 120;
+google_ad_height = 600;
+google_ad_format = "120x600_as";
+google_ad_type = "text";
+google_ad_channel = "";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+  
+  </div>
+  
+  </div>
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3329895-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+  </body>
+</html>

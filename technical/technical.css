@@ -1,0 +1,70 @@
+BODY
+{
+	font-family: Verdana, Sans-Serif;
+	font-size: 9pt;
+	margin: 40px;
+}
+
+h1
+{
+	font-size: 150%;
+	border-bottom: solid 3px #eeee99;
+	padding-bottom: 3px;
+	margin-top: 25px;
+}
+
+h1.mainTitle
+{
+font-size: 180%;
+}
+
+h2
+{
+	font-size: 115%;
+}
+
+pre
+{
+	margin: 15px;
+	padding: 15px;
+	background-color: #eeee99;
+	border: dashed 1px black;
+	overflow: auto;
+	color: Black;
+	background-image: url(goldgrad.jpg);
+	background-repeat: repeat-x;
+}
+
+code
+{
+	/*background-color: white;*/
+	color: #990000;
+}
+
+pre code
+{
+	/*background-color: #eeee99;*/
+	color: Black;
+}
+
+#main
+{
+}
+
+#left
+{
+	float: left;
+	width: 80%;
+}
+
+#right
+{
+	float: right;
+	width: 20%;
+	max-width: 130px;
+}
+
+LI 
+{
+  margin-bottom: 10px;
+}
