@@ -1,0 +1,10 @@
+---
+layout: post
+title: "Portal - just the right sized video game"
+---
+
+<p><img style="margin: 5px" src="http://msnbcmedia3.msn.com/j/msnbc/Components/Photos/071008/071008_orange_hmed_03.hlarge.jpg" width="200" align="right" />I think I just got done playing the perfect video game.  <a title="Raymond" href="http://iwkid.blogspot.com" target="_blank">Raymond</a> let me borrow <a href="http://en.wikipedia.org/wiki/The_Orange_Box" target="_blank">The Orange Box</a>, and I played and completed <a href="http://en.wikipedia.org/wiki/Portal_game" target="_blank">Portal</a>, one of the games in it.  I played it in a single, 4-hour session yesterday while Eva took an unusually long nap.  If you've played Portal, then you already know how fun it is.  It's a 3D first-person puzzle solver with some fun physics and mental twisters.  Aside from that though, it is the perfect length game - at least for me.  I think if there were other games out there that were that fun and that short, I'd buy them all (assuming they were priced lower than your typical $60 XBox 360 game).  </p>
+<p>As for the the game itself, I thought it was great that the first 19 missions in Portal were just preparation for the <strong><em>rest</em></strong> of the game!  </p>
+<p>Just reading the line doesn't do justice without hearing it in the game, but my favorite GlaDOS quote during the game was this one:</p>
+<p><em>"Didn't we have some fun though? Remember when the platform was sliding into the fire pit and I said 'Goodbye' and you were like (deep male voice) 'NO WAY!' (normal voice) and then I was all 'We pretended we were going to murder you'? That was great!"</em></p>
+<div class="tags" id="scid:0767317B-992E-4b12-91E0-4F059A8CECA8:857280ee-67e0-4e9d-b34c-9f73db2c6ec3">Flickr Tags: <a href="http://flickr.com/photos/tags/portal" rel="tag" target="_blank">portal</a> <a href="http://flickr.com/photos/tags/game" rel="tag" target="_blank">game</a> <a href="http://flickr.com/photos/tags/xbox%20360" rel="tag" target="_blank">xbox 360</a></div> 

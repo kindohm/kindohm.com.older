@@ -1,0 +1,8 @@
+---
+layout: post
+title: "A good day of music - new Edgey and Tool"
+---
+
+<p>Take a listen to this recent Edgey track: <a href="http://www.edgey.net/mp3/tracker2.asp?trackURL=EDGEY-My_Tactic_-_Vengeance.mp3">EDGEY-My_Tactic_-_Vengeance.mp3</a>. Increase volume, try to keep up, and let your ears bleed a little :) This track made my day yesterday after work. Edgey's stuff just keeps getting better.</p>
+<p><a href="http://www.toolband.com/" target="_blank">Tool's</a> new album <em><a href="http://www.amazon.com/gp/product/B000EULJLU/sr=8-3/qid=1146661441/ref=pd_bbs_3/002-5473727-7939237?%5Fencoding=UTF8" target="_blank">10,000 Days</a></em> came out yesterday. I didn't think they'd be able to top the cover/case art from their last CD, but they did. This CD's case is unreal, complete with built-in 3D viewing glasses and images, CGI graphics, very cool artwork, and a sweet design and layout. As for the music - it's Tool alright. In one way I wish the band would change more, but on the other hand their music keeps getting more complex and the individual performances of each band member keep getting better. I'm not sure that there's a single 4/4 measure anywhere on the CD :) One thing I like about these guys is that they can play well quietly - which seems to be something that a lot of musicians can't do. Anyway, it's a must-have if you're a Tool fan but I'd recommend their previous CD <em><a href="http://www.amazon.com/gp/product/B00005B36H/sr=8-1/qid=1146661441/ref=pd_bbs_1/002-5473727-7939237?%5Fencoding=UTF8" target="_blank">Lateralus</a></em> instead - at least right now. In a week I'll probably find a lot more I like about the new CD after listening to it a few more times. </p>
+ 
