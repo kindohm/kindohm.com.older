@@ -1,0 +1,7 @@
+---
+layout: post
+title: "Hating SQL Server - put into practice"
+---
+
+<P>Last week, <A href="http://twopenguins.blogspot.com/" target=_blank>John</A> at work passed around <A href="http://weblogs.sqlteam.com/jeffs/archive/2005/05/24/5248.aspx" target=_blank>a post about how much SQL Server sucks</A> (read the article for the sarcasm).&nbsp; </P> <P>Well, today I found that the article speaks a lot of truth and SQL Server really does suck.&nbsp; I mean, why can't SQL Server figure out what to do with data in a column like this:</P><PRE><CODE>5, 9, 11, 17,</CODE></PRE>
+<P>Yes, that's an example from a real table in an upgrade project I'm working on.&nbsp; Yes, that data exists within a single row in a single column. Yes, those are real values that relate to&nbsp;primary keys in some other table. </P> <P>Why use a relational database if you're just going to muck it up like this? A database should be cared for, hugged, petted, and treated with the respect that it deserves. Not poked with a stick and taunted with "Dr. E.F. Codd is tied up and locked in my basement, now what are you going to do about it!!??".</P> 

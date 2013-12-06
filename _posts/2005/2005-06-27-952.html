@@ -1,0 +1,45 @@
+---
+layout: post
+title: "The Demographics Project"
+---
+
+<P>This weekend I worked a little bit on my <A href="http://kindohm.com/archive/2005/06/24/852.aspx">"Demographics" project</A> (codenamed <EM>Demographics</EM>). At a high level, I want to see what I can do with 1) <A href="http://www.census.gov/geo/www/index.html" target=_blank>United States geographic data</A> and 2) year 2000 <A href="http://www.freedemographics.com/" target=_blank>US census data</A>. Census data is available by state, zip code, city, etc, and the geographic data is available in the same. Add some GDI+ in there and you can connect the dots and see where I'm going with this...</P> <P>Anyway, in the first iteration I wanted to capture all of the geographic data for the state of Minnesota and get it into a SQL Server database. The data is available as flat ASCII files, and with a little parsing it was very easy to get the data into some SQL tables. The files are split up into "metadata" files and "data" files. The metadata files contain the "ID" values of zip codes and cities, and the data files contain&nbsp;relative latitude and longitude sample points of the zip codes and cities.</P> <P>An example of a "metadata" file:</P> <P><PRE>1
+"27"
+"58144"
+"St. Vincent"
+"58"
+"city"
+2
+"27"
+"68224"
+"Warroad"
+"58"
+"city"
+3
+"27"
+"30446"
+"Humboldt"
+"58"
+"city"
+...
+</PRE>
+<P></P> <P>And an example of St. Vincent's latitude and longitude data. Each x/y point is a "boundary point" around the city. The x/y points are degrees relative to the origin defined as the intersection of the prime meridian and equator.</P> <P><PRE>         1      -0.972276240387044E+02      0.489697772158653E+0 
+-0.972163930000000E+02       0.489781780000000E+02
+-0.972162220000000E+02       0.489688210000000E+02
+-0.972162220000000E+02       0.489688210000000E+02
+-0.972159450000000E+02       0.489593250000000E+02
+-0.972308592858529E+02       0.489590100136644E+02
+-0.972308592858529E+02       0.489590100136644E+02
+-0.972308592858529E+02       0.489608912273079E+02
+-0.972314603800898E+02       0.489624368972520E+02
+-0.972324908278287E+02       0.489638966984927E+02
+-0.972375410000000E+02       0.489653410000000E+02
+-0.972388820000000E+02       0.489665730000000E+02
+-0.972392090000000E+02       0.489686840000000E+02
+-0.972380250000000E+02       0.489751430000000E+02
+-0.972381661711172E+02       0.489780631362595E+02
+-0.972381661711172E+02       0.489780631362595E+02
+-0.972163930000000E+02       0.489781780000000E+02
+END
+</PRE>
+<P></P> <P>And here's a screenshot of the killer parsing app:</P> <P><IMG src="http://www.kindohm.com/images/quickui.jpg" border=0></P> <P>One-button, single-click&nbsp;applications are the best.&nbsp; 208,842 individual coordinate points were captured in the process.</P> <P>The next iteration will involve drawing cities and zip codes on a screen. Should be fun :)</P> 

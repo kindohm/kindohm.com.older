@@ -1,0 +1,29 @@
+---
+layout: post
+title: "Breaking down large objects in the Farseer Physics engine"
+---
+
+<p>Download source code for this post: <a href="http://www.kindohm.com/files/PhysicsChunks.zip" target="_blank">PhysicsChunks.zip</a> (190k)</p>
+<p>Try out the example app: <a title="http://www.kindohm.com/sl/physicschunks/testpage.html" href="http://www.kindohm.com/sl/physicschunks/testpage.html">http://www.kindohm.com/sl/physicschunks/testpage.html</a></p>
+<p>During development of the Turrets game, I've spent time optimizing the time it takes to load a "map".  A map is simply the terrain that defines the playing boundaries for turrets, projectiles, or any other physical object in the game.  I've found that large geometries, particularly ones that are concave shaped, take a lot of time to load.</p>
+<p>My terrain geometry is relatively large and is built to fit a base screen size of 3000 x 2000 pixels.  All of this is scaled down depending on the user's screen size, but the large base size is nice because it prevents me from having to use decimal values to get the granular geometry that I want.  However, the large base size does increase the complexity of the physics geometries and the computation required for collisions.</p>
+<p>In addition, my terrain has cliffs, walls, and other shapes that create concave shapes.  An easy way to imagine this is a slab of ground with a bounding wall on the left and a bounding wall on the right.  You now have a big, U-shaped, concave bowl.  </p>
+<p>Here's an example of one map that has a cliff overhang and wall that create a concave, sideways "U" with the ground:</p>
+<p><a href="http://www.kindohm.com/LocalImages/Posts/BreakingdownlargeobjectsintheFarseerPhys_C6C3/turretsconcave.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="484" alt="turrets-concave" src="http://www.kindohm.com/LocalImages/Posts/BreakingdownlargeobjectsintheFarseerPhys_C6C3/turretsconcave_thumb.png" width="581" border="0" /></a> </p>
+<p>A simple U-Shaped bowl that fits in a 3000x2000 screen takes <strong><em>forever</em></strong> to load by the Farseer engine (using the default collision grid size).  This has to do with collision detection computations that happen when geometries are created.  In my estimation, the large concave shapes take longer to compute because the center of gravity lies outside of the physical geometry, but that's just a guess.  The collision grid for an object has to be small enough to be realistic.  You can increase the collision grid size in Farseer to make your objects get built faster, but then you run the risk of collisions being less realistic.  In order for my collisions to be realistic enough to satisfy my needs, I needed a small enough collision grid that was causing my terrains to take a terribly long time to load.  You can read all of the details of collision grids in the <a href="http://www.physicspoweredgames.com/FarseerPhysics/Manual2.0.htm" target="_blank">Farseer documentation</a>.</p>
+<p>One way to address this long load time is to break down a large geometry into multiple smaller geometries.  In the above screen shot, you could potentially break down the terrain into 1) the ground, 2) the right wall and 3) the cliff overhang.  </p>
+<p>I decided to test this out (unscientifically) in a simple example.  I created a Silverlight app to host a Farseer Physics environment and created two "maps" that both defined the exact same shape: a large, U-shaped bowl.  The first map used a single Farseer geometry to define all points of the container, and the second map broke it down into three chunks:</p>
+<p><a href="http://www.kindohm.com/LocalImages/Posts/BreakingdownlargeobjectsintheFarseerPhys_C6C3/chunks.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="484" alt="chunks" src="http://www.kindohm.com/LocalImages/Posts/BreakingdownlargeobjectsintheFarseerPhys_C6C3/chunks_thumb.png" width="579" border="0" /></a> </p>
+<p><a href="http://www.kindohm.com/LocalImages/Posts/BreakingdownlargeobjectsintheFarseerPhys_C6C3/chunksparts2.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="370" alt="chunks-parts2" src="http://www.kindohm.com/LocalImages/Posts/BreakingdownlargeobjectsintheFarseerPhys_C6C3/chunksparts2_thumb.png" width="644" border="0" /></a> </p>
+<p>For those of you who have used Farseer and are paying attention, I used a collision grid size of .5 in my app for both maps.</p>
+<p>In the app, you can choose to load either the single path map or the multi-chunk map.  With one test run, here were my results:</p>
+<ul>
+<li>Single Path, Large Geometry: 59.791 seconds to load  </li>
+<li>Multiple Chunk Geometry: 7.307 seconds to load</li>
+</ul>
+<p>You can try out the app here: <a title="http://www.kindohm.com/sl/physicschunks/testpage.html" href="http://www.kindohm.com/sl/physicschunks/testpage.html">http://www.kindohm.com/sl/physicschunks/testpage.html</a></p>
+<p>It's remarkable how much faster multiple, smaller chunks load than the single large geometry.  </p>
+<p>Again, I'm only speculating that the concave shape also has something to do with the slowness.  I haven't come up with a good test that could determine if it <strong><em>doesn't</em></strong> have an effect on the load time.  </p>
+<p>In summary, try using multiple geometries to break down a larger one if your Farseer geometries are taking a long time to load.</p>
+<div class="tags" id="scid:0767317B-992E-4b12-91E0-4F059A8CECA8:d5486330-251b-4481-aee4-297af3bf0b54">Technorati Tags: <a href="http://technorati.com/tags/farseer" rel="tag">farseer</a>,<a href="http://technorati.com/tags/physics" rel="tag">physics</a>,<a href="http://technorati.com/tags/silverlight" rel="tag">silverlight</a>,<a href="http://technorati.com/tags/code" rel="tag">code</a></div>
+

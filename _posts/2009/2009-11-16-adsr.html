@@ -1,0 +1,67 @@
+---
+layout: post
+title: "ADSR Envelopes in Silverlight Audio Synthesis"
+---
+
+<!-- date: 11/16/2009 4:17:00 PM --> <div><p>The latest part of the Silverlight audio synthesis library I&#8217;ve been working on         is <a target="_blank" href="http://en.wikipedia.org/wiki/ADSR_envelope">ADSR (attack-decay-sustain-release)             envelopes</a>. An ADSR envelope is used to change how an instrument sounds over         time and is commonly used in digital audio synthesis to modulate different components         of a waveform - including its loudness or frequency. Most commonly, this means an         ADSR envelope is used to control how a sound fades in, sustains, and fades out.         These envelopes can also be applied to frequency or amplitude modulation and thus         alter characteristics such as <a target="_blank" href="http://en.wikipedia.org/wiki/Timbre">timbre</a>.</p> <p>So how does one go about implementing a simple ADSR envelope in the Silverlight         audio synthesis space? It&#8217;s not too difficult if you are comfortable with basic         linear algebra. Before I dive in to the math, let&#8217;s look at a visual representation         of an envelope that has three components: attack, sustain, and release. I&#8217;m eliminating         the &#8220;decay&#8221; parameter here for simplification:</p> <p><a title="ASR by kindohm, on Flickr" href="http://www.flickr.com/photos/kindohm/4109327855/" target="_blank"><img src="http://farm3.static.flickr.com/2679/4109327855_50f72e4d7c_o.png" alt="ASR" width="476" height="174"/></a></p> <p>In this simple example, the x axis is &#8220;time&#8221; and the y axis is an arbitrary value         - lets say the y axis is &#8220;loudness&#8221; on a scale of 0% to 100%. The envelope above         describes a sound that fades in quickly, reaches and maintains its full volume,         then fades out gradually.</p> <p>In 16-bit digital audio synthesis, given a sample rate (e.g. 44,100 samples/sec),         we can assume that each two-byte sample we create equates to a constant measure         of time (1 sample ~ 0.00002226 seconds, actually). Thus, we can use a sample count         to keep track of the duration of time over an envelope. Let&#8217;s look at the example         graph again, but this time let&#8217;s put some concrete sample durations on the x-axis:</p> <p><a title="asr-x by kindohm, on Flickr" href="http://www.flickr.com/photos/kindohm/4110091458/" target="_blank"><img src="http://farm3.static.flickr.com/2571/4110091458_4948e52c14_o.png" alt="asr-x" width="476" height="174"/></a></p> <p>The example above describes an envelope that has an attack duration of 1000 samples,         a sustain duration of 2500 samples, and a release duration of 2000 samples.</p> <p>Now, let&#8217;s get back to that linear algebra. Do you remember this equation from school?</p> <p><code>y = Mx + B</code></p> <p>This is a linear equation used to calculate the vertical position along a line at         any given point. The value <code>M</code> is the <a target="_blank" href="http://en.wikipedia.org/wiki/Slope">slope</a>, or rise over run (the vertical distance traveled by the line divided by the horizontal distance traveled by the line). The <code>B</code> component is the &#8220;starting value&#8221; of the function when x         = 0.</p> <p>The envelope in these graphs is composed of three lines. The &#8220;sustain line&#8221; we can         ignore for now - it is a horizontal line that has a constant value. The interesting         lines are the &#8220;attack line&#8221; and the &#8220;release line&#8221;. Using a linear equation we can         define a function to calculate the attack and release values at their respective         sample points.</p> <p>Assume our maximum y value is 1. If A equals the attack duration, S equals the sustain         duration, and R equals the release duration:</p> <ul><li>When <code>x = A, y = (1 / A) * x + 0</code></li> <li>When <code>x &gt; A and x = (A + S), y = 1</code></li> <li>When <code>x &gt; (A+S), y = (-1 / R) * x + 1</code></li> </ul><p>Notice that the &#8220;attack&#8221; and &#8220;release&#8221; equations use the <code>y = Mx + B</code> forms while the &#8220;sustain&#8221; equation is a constant value of 1.</p> <p>We can easily apply these functions and create an Envelope class for an Oscillator&#8217;s         volume. Perhaps the most obvious difference from the easy example is that we need to account for the fact that         volume is typically expressed in negative decibels (dB). For example, we want our Oscillator&#8217;s envelope         to have a dynamic range from -80&#160;dB (virtually inaudible) to 0&#160;dB (full volume).  It&#8217;d be nice to define an Oscillator&#8217;s envelope in the c# programming language like         this:</p> <pre><code>Envelope envelope = new Envelope() { 
+  Attack = 1000, 
+  Sustain = 2500, 
+  Release = 2000, 
+  Start = -80, 
+  Rise = 80 
+};</code></pre>
+<p>This would define an envelope with attack, sustain, and release values of 1000,         2500, and 2000 respectively. The envelope would start at a value of -80 and have         a maximum value of zero. The &#8220;Rise&#8221; property signifies the range of envelope values.         A Rise value of 70 would result in envelope values from -80 to -10.</p> <p>To use the envelope within an Oscillator which has a GetSample() method that is called to      generate each audio sample:</p> <pre><code>public short GetSample()
+{
+  ushort shortPhaseAngle = (ushort)(this.phaseAngle &gt;&gt; 16);
+  phaseAngle += this.increment;
+  short sample = 0;
+
+  //assume a wave table of system.int16 samples
+  sample = WaveTable.SineWaveForm[shortPhaseAngle];
+  this.Attenuation = this.Envelope.GetNextValue();
+  sample = this.Attenuate(sample);
+  return sample;   
+}</code></pre>
+<p>The sample calculation code above is adapted from Charles Petzold&#8217;s <a target="_blank" href="http://www.charlespetzold.com/blog/2009/07/Simple-Electronic-Music-Sequencer-for-Silverlight.html">Simple SilverlightSequencer</a>.</p> <p>Notice the use of <code>this.Envelope.GetNextValue()</code> to automatically produce the next Attenuation (e.g. volume) value for each sample point.  It&#8217;s pretty easy to use for us simple programmer-folk.</p> <p>The Envelope&#8217;s GetNextValue method looks like this:</p> <pre><code>public double GetNextValue()
+{
+  this.counter++;
+  if (counter &gt;= (this.Attack + this.Sustain))
+  {
+    this.releaseCounter++;
+    return this.ProcessRelease();
+  }
+  else
+  {
+    if (counter &lt; this.Attack)
+      return this.ProcessAttack();
+    else
+      return this.Rise + this.Start;
+  }
+}
+
+double ProcessAttack()
+{
+  //y = mx + b
+  return (double)counter 
+    this.attackSlope + this.Start;
+}
+
+double ProcessRelease()
+{
+  //y = mx + b
+  double result = (double)this.releaseCounter * 
+       this.releaseSlope + this.Start + this.Rise;
+  return result &gt; this.Start ? result : this.Start;
+}</code></pre>
+<p>The <code>attackSlope</code> and <code>releaseSlope</code> values are calculated whenever the Envelope&#8217;s Attack, Release or Rise properties are changed:</p> <pre><code>void UpdateAttackSlope()
+{
+  this.attackSlope = this.Rise / (double)this.Attack;
+}
+
+void UpdateReleaseSlope()
+{
+  this.releaseSlope = -this.Rise / (double)
+    ((this.release + this.Sustain + this.Attack) - 
+      (this.Attack + this.Sustain));
+}</code></pre>
+<p>This Envelope code is able to support a variety of envelope types including ones that are percentage based (e.g. from 0.00 to 1.00), negatively ranged (e.g. -80 to 0), positively ranged (e.g. 0 to 100), or both (e.g. -50 to 50).</p> <p>I&#8217;ve tested this envelope implementation with volume, frequency modulation amplitude, and amplitude modulation     amplitude.  The effects are pretty cool - especially once you get more than one oscillator playing at the      same time.  I hope to have some sample audio up sometime soon.</p></div>     

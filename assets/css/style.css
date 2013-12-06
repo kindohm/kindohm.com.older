@@ -1,0 +1,49 @@
+.navbar-default {
+    background: none;
+    border: 0px;
+}
+
+.navbar {
+    margin-bottom: 0px;
+}
+
+.jumbotron{
+    background: none;
+}
+
+.small-jumbo{
+    font-size: 14px;
+}
+
+footer{
+    text-align: center;
+}
+
+header hr{
+    margin-top: 0px;
+}
+
+article{
+    font-family: Georgia;
+    font-size: 1.2em;
+    line-height: 1.4em;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+article p{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+article h2 a{
+    color: #333;
+}
+
+article h2, article h3, article h4{
+    margin-top: 40px;
+}
+
+article img{
+    max-width: 100%;
+}

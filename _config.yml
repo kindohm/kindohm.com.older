@@ -1,0 +1,15 @@
+permalink: /blog/:year/:month/:day/:title 
+
+exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "_tempstash"]
+pygments: false
+
+title : mike. hodnick. blog.
+tagline: mikes blog
+author :
+  name : Mike Hodnick
+  email : mike.hodnick@gmail.com
+  github : kindohm
+  twitter : kindohm
+  feedburner : Kindohm
+
+production_url : http://blog2.kindohm.com

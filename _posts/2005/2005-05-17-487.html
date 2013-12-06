@@ -1,0 +1,25 @@
+---
+layout: post
+title: "Web Part Performance Issues - an update"
+---
+
+<P>I've been working on some <A href="http://kindohm.com/archive/2005/05/13/444.aspx">performance problems with SharePoint web parts</A>.&nbsp; We were able to narrow down the problem to a couple of things: </P> <UL> <LI>The web part traversed hierarchies of SPS Areas inefficiently.&nbsp; The original code appeared to get the value of an Area's <EM>Areas</EM> property more than necessary:<PRE><CODE>Dim objSubArea as Area 
+For intCounter as Integer = 0 To objArea.Areas.Count - 1 
+ objSubArea = objArea.Areas(intCounter) 
+ '''do some recursive processing 
+Next</CODE> </PRE>
+<P>Back in 2003 at a SharePoint developers conference in Redmond, the SP development team made it clear that SP collections should either be assigned to&nbsp;a variable before using them&nbsp;or enumerated using a for-each. They didn't say why, but after opening up the code in Reflector I can see&nbsp;why:</P><PRE><CODE>public AreaCollection get_Areas()
+{
+      aa.b().Demand();
+      aa.a().Assert();
+      return new AreaCollection(this.a.l());
+}
+</CODE></PRE>
+<P>With all of those security checks being performed and new AreaCollections being returned, the original code was likely resulting a in a lot of excess processing. Thus, we changed it to this:</P><PRE><CODE>For Each objSubArea as Area in objArea.Areas
+     
+ '''do some recursive processing
+ 
+Next</CODE> </PRE>
+<P>In load-testing terms I don't know exactly how much this improves performance, but I compared the old and new web part code side by side using elapsed System.Environment.TickCounts and the new code appeared to take about 1/4 the time to load. </P> <LI>The web part had a feature that added document libraries and lists to the menu as menu items. The operations to find/load document libraries and lists are <B>very</B> costly: <PRE><CODE>Area.Web.GetListsOfType(SPBaseType.DocumentLibrary)
+Area.Web.GetListsOfType(SPBaseType.GenericList)</CODE></PRE>
+<P>By &#8220;very costly&#8220;, I mean that the web part loaded much faster once we removed these calls altogether...</P> <P>What we actually found was that these calls were being made even when&nbsp;the feature wasn't&nbsp;even turned on <ACK>.&nbsp;The calls were made ahead of time before the If...Then statement that checked whether the feature was turned on or off. It turns out that nobody<SPAN style="FONT-SIZE: 6pt; VERTICAL-ALIGN: super">1</SPAN> was using this feature and management made the decision that it should be removed completely. </P></LI></UL> <P>It turns out that the main performance problems&nbsp;could be&nbsp;resolved through improvement of the web part implementation rather than changing the design of the entire web part. At the beginning of all this I thought we would be working on the latter.</P> <P><SPAN style="FONT-SIZE: 6pt; VERTICAL-ALIGN: super">1</SPAN> <SPAN style="FONT-SIZE: 0.8em">We used a tool that <A href="http://iwkid.blogspot.com">IWKid</A> developed to browse all of the web parts in the entire site to see if they were using the IncludeAreaContent property/feature. We found none, and none of the business owners knew of anyone using the feature.</SPAN></P> 

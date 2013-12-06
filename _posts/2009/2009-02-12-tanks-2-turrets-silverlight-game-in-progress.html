@@ -1,0 +1,27 @@
+---
+layout: post
+title: "TANKS-2 - Turrets - Silverlight Game in Progress"
+---
+
+<p>About a month ago, I released <a href="http://kindohm.com/archive/2009/01/07/tanks-a-silverlight-game-with-c-and-farseer-physics.aspx" target="_blank">TANKS</a> into the wild.  While it was a fun experience, the focus of TANKS was more about exploring the Farseer Physics engine and doing some complex development with Silverlight.  <strong><em>The focus was not on creating a great game.</em></strong>  Today, it drives me insane that the game doesn't have that game "polish" that it deserved.  </p>
+<p>Now that I've explored Silverlight and Farseer far enough to my liking, it is time to move on...</p>
+<p><a href="http://www.kindohm.com/LocalImages/Posts/Tanks2TurretsSilverlightGameinProgress_CC6A/ttscreen.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="164" alt="ttscreen" src="http://www.kindohm.com/LocalImages/Posts/Tanks2TurretsSilverlightGameinProgress_CC6A/ttscreen_thumb.png" width="244" align="right" border="0" /></a> Enter <em><strong>Turrets</strong></em> - the sequel to TANKS.  </p>
+<p>Turrets is under development and is being created with a <strong><em>game focus</em></strong>.  It is a game and is being treated like a game.  </p>
+<p>So what are some of the characteristics of Turrets that make it a little different than TANKS?  Well, there are a lot of actual game features that are different, but there are also some more subtle UI changes as well:</p>
+<ol>
+<li>New terrain design.  TANKS ended up looking very cartoony.  Nothing wrong with that, but for the next game I wanted something that looked sharp.  With inspiration and blessing from Jeff Weber at <a href="http://www.farseergames.com/Default.aspx" target="_blank">Farseer Games</a>, I went with some new game terrain that is crisper and also introduces the perception of a much larger game environment.  </li>
+<li>Multi-threading.  Perhaps the most annoying thing about TANKS was how the game locked up when loading more complex maps.  The new game utilizes background threads to improve the user experience while time-consuming operations occur in the background.  </li>
+<li>Particle effects.  The explosions rock.  Debris flying everywhere.  See above screen shot.  Thanks to Robby Ingebretsen's <a href="http://blog.nerdplusart.com/archives/silverlight-particle-generator" target="_blank">Silverlight Particle Generator</a>. </li>
+<li>Different weaponry and items.  There is less emphasis on different weapon types and more emphasis on one-time power items in the new game.  Cluster bombs and shields are complete.  An "EMP" item and a repair kit are in the works.  </li>
+<li>Upgrade purchases. Instead of shooting powerups falling from the sky, the new game introduces an Upgrade Store that you can buy upgrades from at the end of each round.  You gain cash for each point you score in the game.  Upgrades are given in levels (e.g. Damage Level 1, Damage Level 2, etc) and increase in cost as you go.  </li>
+<li>Competitive computer opponents.  The same computer AI's follow you through the game levels and compete against you.  You can play against one to four opponents.  In the old game, computer opponents were defined per level.  Now they are defined at the beginning of the game.  </li>
+<li>Turret types.  Standard, heavy, and light.  Heavy is more resistant to damage and doles out more damage, but reloads much more slowly and has fewer hit points.  Light tanks shoot and reload faster, but are less resistant to damage.  </li>
+<li>AI plugin architecture. From the start, Turrets was designed to be able to plug in any AI code.  Obviously, this makes it easier to maintain AI code without mixing it with other game code, but it also introduces the ability for other developers to implement their own AI.  </li>
+<li>New base AI. The base AI in the game is smarter than in the old game.  It picks on weak opponents.  It tries to buy upgrades that will help it succeed, rather than shooting down powerups by chance like in the old game.  </li>
+<li>"Assassin" opponents.  There are computer opponents who are just there to be annoying and pick on both the computer and user players.  They attach themselves to walls and overhangs and pepper you with ammo.</li>
+</ol>
+<p>I can't list these features without thanking <a href="http://www.justaddcode.com" target="_blank">Neil</a> for suggestions and other inspiration.</p>
+<p>I don't have any plans for a specific release date or completion date for Turrets as this is being done all in my spare time.  There are a lot of loose ends to tie up to complete the game experience, and then there will be a lot of play testing.</p>
+<p>Overall, developing Turrets has been a lot of fun so far (especially the particle effects).  I hope to produce something really cool in the near future.</p>
+<div class="tags" id="scid:0767317B-992E-4b12-91E0-4F059A8CECA8:db6aacac-e2ae-4fc3-8c42-0dc74cf6f33d">Technorati Tags: <a href="http://technorati.com/tags/silvelright" rel="tag">silvelright</a>,<a href="http://technorati.com/tags/game" rel="tag">game</a>,<a href="http://technorati.com/tags/code" rel="tag">code</a>,<a href="http://technorati.com/tags/development" rel="tag">development</a>,<a href="http://technorati.com/tags/tanks" rel="tag">tanks</a>,<a href="http://technorati.com/tags/turrets" rel="tag">turrets</a></div>
+

@@ -1,0 +1,9 @@
+---
+layout: page
+title: Archive
+---
+
+{% for post in site.posts reverse %}
+        {% include archive_post.html %}
+{% endfor %}
+  </ul>
