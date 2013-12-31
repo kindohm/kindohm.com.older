@@ -57,6 +57,12 @@ pre.title{
     background: transparent;
 }
 
+pre.title code{
+    font-family: monospace;
+    font-size: 16px;
+    line-height: 10px;
+}
+
 h1.title{
     font-family: 'Droid Sans Mono', monospace;
 }
@@ -67,4 +73,8 @@ h1.title{
 
 .home-container{
     margin-top: 20px;
+}
+
+.home-container h3{
+    font-family: 'Droid Sans Mono', monospace;
 }
