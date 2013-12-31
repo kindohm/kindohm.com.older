@@ -1,6 +1,6 @@
 ---
 layout: home
-title: yo
+title: Contact
 ---
 
 <div class="container small-container home-container">
@@ -17,15 +17,12 @@ title: yo
 </code></pre>
 
 <h1 class="title visible-xs">kindohm</h1>
-<p class="lead">Moving electrons one line of code at a time.</p>
 </div>
 
-<p>I am a software developer and a
-	Live Coding artist. If you're interested in booking for either a project
-	or a Live Coding performance, please <a href="/contact.html">contact me</a>.</p>
+<p><a href="/">go back</a></p>
 
-<p><a href="http://twitter.com/kindohm">twitter</a> | 
-	<a href="http://soundcloud.com/kindohm">soundcloud</a> | 
-	<a href="/blog/index.html">blog</a></p>
+<script src="http://www.emailmeform.com/builder/forms/jsform/08dacv1jcTCI" type="text/javascript"></script>
+<div style="margin-top:18px;text-align:center"><div id='emf_advertisement'><font face="Verdana" size="2" color="#000000">Powered by</font><span style="position: relative; padding-left: 3px; bottom: -5px;"><img src="//assets.emailmeform.com/images/footer-logo.png?RU1GLTAyLTE2LTk3NjI%3D" /></span><font face="Verdana" size="2" color="#000000">EMF </font><a style="text-decoration:none;" href="http://www.emailmeform.com/" target="_blank"><font face="Verdana" size="2" color="#000000">Contact Form</font></a></div></div>
+
 
 </div>

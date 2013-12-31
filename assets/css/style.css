@@ -47,3 +47,24 @@ article h2, article h3, article h4{
 article img{
     max-width: 100%;
 }
+
+.home-container{
+    font-family: 'Droid Sans Mono', monospace;
+}
+
+pre.title{
+    border: 0px;
+    background: transparent;
+}
+
+h1.title{
+    font-family: 'Droid Sans Mono', monospace;
+}
+
+.small-container{
+    max-width: 600px;
+}
+
+.home-container{
+    margin-top: 20px;
+}

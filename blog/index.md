@@ -1,5 +1,5 @@
 ---
-layout: bigpage
+layout: blogwrap
 title: "Mike's Blog"
 ---
 
