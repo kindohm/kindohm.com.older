@@ -9,6 +9,8 @@
 
 .jumbotron{
     background: none;
+    margin-bottom: 5px;
+    padding-bottom: 10px;
 }
 
 .small-jumbo{
@@ -48,33 +50,14 @@ article img{
     max-width: 100%;
 }
 
-.home-container{
+.container {
+    max-width: 920px;
+}
+nav, .homewrap, .homewrap h1, .homewrap h2, .homewrap h3{
     font-family: 'Droid Sans Mono', monospace;
 }
 
-pre.title{
-    border: 0px;
-    background: transparent;
-}
-
-pre.title code{
-    font-family: monospace;
-    font-size: 16px;
-    line-height: 10px;
-}
-
-h1.title{
-    font-family: 'Droid Sans Mono', monospace;
-}
-
-.small-container{
-    max-width: 600px;
-}
-
-.home-container{
-    margin-top: 20px;
-}
-
-.home-container h3{
-    font-family: 'Droid Sans Mono', monospace;
+a.navbar-brand{
+    margin-left: 0px;
+    padding-left: 0px;
 }

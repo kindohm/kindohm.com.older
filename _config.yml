@@ -1,6 +1,6 @@
 permalink: /blog/:year/:month/:day/:title 
 
-exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "_tempstash"]
+exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "_tempstash", "_revokedposts", "_archivedposts"]
 pygments: false
 
 title : mike. hodnick. blog.
