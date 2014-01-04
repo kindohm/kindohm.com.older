@@ -8,14 +8,14 @@ title: kindohm
 	<div class="jumbotron text-center">
 
 		<h1>kindohm</h1>
-		<p class="lead">moving electrons one line of code at a time.</p>
+		<p class="lead">arranging electrons to produce sound</p>
 
 	</div>
 
 	<div class="text-center">
-		<p><a href="/programming.html">independent programming</a> | 
-			<a href="/livecoding.html">live coding artist</a> |
-			<a href="/blog">blog</a></p>
+		<p><a href="/audio.html">experimental electronic music</a> |
+			<a href="/blog">blog</a> |
+			<a href="/programming.html">independent programming</a></p>
 	</div>
 
 </div>
