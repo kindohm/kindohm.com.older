@@ -23,6 +23,8 @@ title: Experimental Electronic Music
 	listen to all of the patterns at 
 	<a href="http://365tidalpatterns.tumblr.com">365tidalpatterns.tumblr.com</a>.</p>
 
+<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/127699208&amp;color=ff6600&amp;auto_play=false&amp;show_artwork=true"> </iframe>
+
 <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/127442915&amp;color=ff6600&amp;auto_play=false&amp;show_artwork=true"> </iframe>
 
 <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/127279293&amp;color=ff6600&amp;auto_play=false&amp;show_artwork=true"> </iframe>
