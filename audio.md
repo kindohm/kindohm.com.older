@@ -17,7 +17,8 @@ title: Experimental Live-Coded Electronic Music
 
 <p>I like to produce sound that fits the environment - whether that is a 
 	background groove, breakbeats, or ambient noise.  Below are some short, experimental
-	examples of my work using <em>Tidal</em>, a live coding environment. </p>
+	examples of my work using <em>Tidal</em>, a live coding environment. While they
+	do not represent a live-coded performance, they suggest some potential sounds.</p>
 
 <p>During 2014, I am producing one pattern every day with <em>Tidal</em>. You can
 	listen to all of the patterns at 
