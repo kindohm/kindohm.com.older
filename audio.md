@@ -1,9 +1,9 @@
 ---
 layout: homewrap
-title: Experimental Electronic Music
+title: Experimental Live-Coded Electronic Music
 ---
 
-<h3>Experimental Electronic Music</h3>
+<h3>Experimental Live-Coded Electronic Music</h3>
 
 <p>I perform experimental, improvised electronic music using computers, 
 	programming languages, and 
