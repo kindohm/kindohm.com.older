@@ -13,4 +13,4 @@ title: Independent Software Development
 
 <p>Please <a href="contact.html">contact me</a> if you would like me to help
 	you build your next great thing. You can also 
-	<a href="www.linkedin.com/in/michaelhodnick">contact me on LinkedIn</a>.</p>
+	<a href="//www.linkedin.com/in/michaelhodnick">contact me on LinkedIn</a>.</p>
