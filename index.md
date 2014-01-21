@@ -1,6 +1,6 @@
 ---
 layout: default
-title: kindohm
+title: "Mike Hodnick a.k.a. kindohm"
 ---
 
 <div class="container homewrap">
