@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "20 Minute Improvised Live Coding Session With Tidal"
+title: "20 Minutes of Improvised, Live Coded Audio With Tidal"
 ---
 
 <p>A 20-minute, improvised live coding session with <a href="http://yaxu.org/tidal">Tidal</a>.</p>
