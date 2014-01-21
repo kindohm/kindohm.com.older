@@ -29,8 +29,8 @@ article{
     font-family: Georgia, serif;
     font-size: 1.2em;
     line-height: 1.5em;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 article p{
@@ -58,6 +58,27 @@ nav, .homewrap, .homewrap h1, .homewrap h2, .homewrap h3{
 }
 
 a.navbar-brand{
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+.homewrap p{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.container .jumbotron{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.homelinks ul{
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+.homelinks li{
+    list-style-type: none;
     margin-left: 0px;
     padding-left: 0px;
 }
