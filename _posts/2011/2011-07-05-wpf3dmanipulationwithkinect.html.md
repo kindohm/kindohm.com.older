@@ -3,7 +3,7 @@ layout: post
 title: "WPF 3D Manipulation with Kinect"
 ---
 
-<p>Download source code: <a href="http://kindohm.com/files/Kinect3dManipulation.zip">Kinect3dManipulation.zip</a></p>
+<p>Source code: <a href="//github.com/kindohm/kinect3dmanipulation">github.com/kindohm/kinect3dmanipulation</a></p>
 <p>I've created an implementation of a Kinect NUI Trackball which can be used for manipulating a camera around WPF 3D scenes. This "HandsTrackball" is adapted from the Trackball class included  in the source code for <a href="http://3dtools.codeplex.com">WPF 3DTools</a>. The original Trackball class allows you to use the mouse to rotate around a WPF 3D scene.</p>
 <p>My HandsTrackball basically maps hand movements to what the original Trackball uses as  mouse points. Some new ground rules as well as as some Kinect depth-to-screen point calculations are applied in order to make this all work.</p>
 <p>This video explains how the HandsTrackball is used:</p>
