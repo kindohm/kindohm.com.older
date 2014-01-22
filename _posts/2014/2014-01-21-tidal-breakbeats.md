@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Mastering Breakbeats with Tidal
+title: Slicing Up Breakbeats with Tidal
 ---
 
 <p>I love slicing breaks. There's nothing else like scrambling up a drum beat.</p>
@@ -9,14 +9,10 @@ title: Mastering Breakbeats with Tidal
 	on slicing up breaks. I'm going to share some of my super-secret techniques
 	(a.k.a. accidental discoveries) on how I slice up breaks in Tidal.</p>
 
-<p><strong class="text-danger">Caution</strong>: this write-up assumes you know a
-	<em>little</em> bit about wave files, samples, time-stretching, etc. </p>
-
 <p>The video below is a real-time explanation and demonstration of everything,
 	but continue reading if you want more of a textual explanation.</p>
 
-<pre><code>;; wow. such video. very sound.</code></pre>
-
+<iframe width="640" height="360" src="//www.youtube.com/embed/plu04_ewZUQ" frameborder="0"> </iframe>
 <p>Mentally, I break down slicing into a few steps:</p>
 
 <ol>
