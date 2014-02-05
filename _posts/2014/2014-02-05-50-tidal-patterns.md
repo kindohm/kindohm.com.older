@@ -18,9 +18,9 @@ title: "The 50th Tidal Pattern"
 	I plan to keep going for a full year, try to create a pattern each day, and
 	at minimum produce 365 patterns.</p>
 
-<p>I've gotten to know Tidal pretty well over the past thirty seven days. Making
+<p>I've gotten to know Tidal pretty well over the past 37 days. Making
 	a Tidal pattern each day, and trying to do it well, has forced me to understand
-	Tidal better. I've understood Tidal better though more obvious means such
+	Tidal better though obvious means such
 	as reading documentation, referring to examples, and asking questions. More
 	surprisingly, I've come to understand Tidal better through creative forces.</p>
 
@@ -88,5 +88,5 @@ and not be verbose about it.</p>
 
 <p>My intention is to keep producing a pattern a day. I have a feeling that these
 	first 37 days are going to feel easy compared to when I reach pattern #100!</p>
-	
+
 
