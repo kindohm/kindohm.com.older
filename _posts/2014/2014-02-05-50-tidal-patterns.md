@@ -42,11 +42,11 @@ title: "The 50th Tidal Pattern"
 	learned with Tidal. Some ideas for the future (not all original):</p>
 
 <ul>
-	<li>Take a photograph each day</li>
-	<li>Take a photograph each day of a specific subject (e.g. a backpack, a car, etc)</li>
-	<li>Write one page in a journal every day</li>
-	<li>Write a 50-word <a href="http://en.wikipedia.org/wiki/Minisaga">Minisaga</a> every day</li>
-	<li><a href="http://jenniferdewalt.com/index.html">Build a small web site every day</a></li>
+	<li>Take a photograph</li>
+	<li>Take a photograph of a specific subject (e.g. a backpack, a car, etc)</li>
+	<li>Write one page in a journal/li>
+	<li>Write a 50-word <a href="http://en.wikipedia.org/wiki/Minisaga">Minisaga</a></li>
+	<li><a href="http://jenniferdewalt.com/index.html">Build a small web site</a></li>
 	<li>Learn a guitar chord</li>
 	<li>Sight read a piano etude</li>
 	<li>Prepare a new food</li>
