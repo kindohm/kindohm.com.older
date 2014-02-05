@@ -28,7 +28,7 @@ title: "The 50th Tidal Pattern"
 
 <p>Creating something every day with the same tool forces you to look at
 	what you're doing in new ways. In my case, I want to create a unique sound
-	that is different from the past forty nine, but I have to use the exact
+	that is different from the past 49, but I have to use the exact
 	same toolbox as the day before.</p>
 
 <p>Eventually you get to a point where you run out of toolbox features to exploit and 
